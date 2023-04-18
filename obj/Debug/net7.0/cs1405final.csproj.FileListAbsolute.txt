@@ -1,0 +1,15 @@
+D:\repos\cs1405final\bin\Debug\net7.0\cs1405final.exe
+D:\repos\cs1405final\bin\Debug\net7.0\cs1405final.deps.json
+D:\repos\cs1405final\bin\Debug\net7.0\cs1405final.runtimeconfig.json
+D:\repos\cs1405final\bin\Debug\net7.0\cs1405final.dll
+D:\repos\cs1405final\bin\Debug\net7.0\cs1405final.pdb
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.csproj.AssemblyReference.cache
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.GeneratedMSBuildEditorConfig.editorconfig
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.AssemblyInfoInputs.cache
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.AssemblyInfo.cs
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.csproj.CoreCompileInputs.cache
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.dll
+D:\repos\cs1405final\obj\Debug\net7.0\refint\cs1405final.dll
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.pdb
+D:\repos\cs1405final\obj\Debug\net7.0\cs1405final.genruntimeconfig.cache
+D:\repos\cs1405final\obj\Debug\net7.0\ref\cs1405final.dll
