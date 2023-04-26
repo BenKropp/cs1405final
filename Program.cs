@@ -77,7 +77,7 @@ internal class Program
                 }
                 if(choice > 0 && ((success && choice < dbtemp.Count) || add == 'y')) {
                     //Console.WriteLine("Placeholder text while I work on this function");
-                    for(int i = 0; i < dbentries.Length; i++){
+                    for(int i = 0; i < dbentries.Length-1; i++){
                         Console.Clear();
                         Console.WriteLine(dbentries[0][i]);
                         inputs.Add(Console.ReadLine());
