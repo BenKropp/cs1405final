@@ -35,12 +35,14 @@ internal class Program
                 ViewDB(ref nupath, ref message, ref tempstore);
             }
         }
-        static void EditDB(string editing, ref string path)
+        static void EditDB(string editing, ref string path, ref string message, ref string tempstore)
         {
             Console.Clear();
             Console.WriteLine(editing);
+            bool success = false;
             string? nupath = "";
             if(File.Exists(path + "\\" + editing)){
+                string? input = "";
                 nupath = path + "\\" + editing;
                 string[] backup = File.ReadAllLines(path + "\\" + editing);
                 List<string> dbtemp = new List<string>();
@@ -59,14 +61,23 @@ internal class Program
                     if(dbtemp[i] != "")
                     Console.WriteLine(dbtemp[i]);
                 }
-                Console.WriteLine("Please select which line you would like to edit");
-                string? input = Console.ReadLine();
-                string change = "";
                 int choice = 0;
-                bool success = Int32.TryParse(input, out choice);
-                if(success && choice > 0 && choice < dbtemp.Count) {
-                    Console.WriteLine("Placeholder text while I work on this function");
-                    for(int i = 0; i < dbentries.Length-1; i++){
+                    Console.WriteLine("Would you like to add a new line? y/n");
+                    char add = Console.ReadKey(true).KeyChar;
+                    if(add == 'y'){
+                        choice = dbtemp.Count;
+                    } else{
+                Console.WriteLine("Please select which line you would like to edit");
+                input = Console.ReadLine();
+                        
+                    }
+                string change = "";
+                if(add != 'y'){
+                success = Int32.TryParse(input, out choice);
+                }
+                if(choice > 0 && ((success && choice < dbtemp.Count) || add == 'y')) {
+                    //Console.WriteLine("Placeholder text while I work on this function");
+                    for(int i = 0; i < dbentries.Length; i++){
                         Console.Clear();
                         Console.WriteLine(dbentries[0][i]);
                         inputs.Add(Console.ReadLine());
@@ -77,20 +88,29 @@ internal class Program
                         }
                     }
                     //change = change.Trim();
+                    if(add != 'y'){
                     Console.WriteLine($"Previous entry: \n{dbtemp[choice]}");
                     Console.WriteLine($"Current changes: \n{change}");
+                    }
                     Console.WriteLine("Would you like to save your changes? y/n");
                     bool keepgoing = true;
                     while(keepgoing){
                     char save = Console.ReadKey(true).KeyChar;
                     if(save == 'y'){
+                        if(add == 'y'){
+                            dbtemp.Add(change);
+                        }else {
                         dbtemp[choice] = change;
+                        }
                         File.WriteAllLines(nupath, dbtemp);
                         keepgoing = false;
                     }else if (save == 'n'){
                         keepgoing = false;
                     }
                     }
+                    Console.Clear();
+                    Console.WriteLine(message);
+                    Validate(Console.ReadLine(), 2, ref nupath, ref message, ref path, ref tempstore);
                 } else{
                     Console.WriteLine("Please enter a valid line to edit");
 
@@ -100,17 +120,90 @@ internal class Program
                 nupath = Console.ReadLine();
                 if(File.Exists(path + "\\" + nupath)){
                     //Console.WriteLine(path);
-                EditDB(nupath, ref path);
+                EditDB(nupath, ref path, ref message, ref tempstore);
                 } else {
                     Console.WriteLine("Please enter a valid file location");
-                    EditDB("", ref path);
+                    EditDB("", ref path, ref message, ref tempstore);
                 }
             }
         }
-        static void CreateDB()
+        static void CreateDB(ref string nupath, ref string path, ref string message, ref string tempstore)
         {
+            List<string> builder = new List<string>();
+            string? input = "";
+            char choice = ' ';
+            bool prevsaved = false;
+            string saveas = "";
+            string temprow = "";
             Console.WriteLine("Please enter a filename for this database without the extension");
-            //Validate(Console.ReadLine(), 2);
+            input = Console.ReadLine();
+            if(!File.Exists(path + "\\" + input + ".csv")){
+                //The file can be generated
+                saveas = path + "\\" + input + ".csv";
+                while(choice != '2'){
+                    Console.Clear();
+                    if(prevsaved){
+                        Console.WriteLine($"Previous entry saved as {input}");
+                    }
+                Console.WriteLine("1. Add new column \n2. Next step (warning: cannot add more columns after this point)");
+                choice = Console.ReadKey(true).KeyChar;
+                    if(choice == '1'){
+                        Console.WriteLine("Please enter a title for this column");
+                        input = Console.ReadLine();
+                        prevsaved = true;
+                        builder.Add(input);
+                    } else if (choice != '1' && choice != '2'){
+                        Console.WriteLine("That's not a valid choice, please enter '1' or '2'");
+                    }
+                }
+                for(int i = 0; i < builder.Count; i++){
+                    if(i == 0){
+                    temprow = temprow + builder[i];
+                    } else {
+                        temprow = temprow + ", " + builder[i];
+                    }
+                }
+                List<string> rows = new List<string>();
+                rows.Add(temprow);
+                Console.Clear();
+                choice = '0';
+                Console.WriteLine(temprow);
+                Console.WriteLine("Finished adding columns");
+                while(choice != '2' && choice != '3'){
+                    Console.Clear();
+                Console.WriteLine("1. Add new row \n2. Save file as .csv\n3. Quit without saving");
+                choice = Console.ReadKey(true).KeyChar;
+                if(choice == '1'){
+                    temprow = "";
+                    //Console.WriteLine("Placeholder for building a row");
+                    for(int i = 0; i < builder.Count; i++){
+                        Console.Clear();
+                        Console.WriteLine(builder[i]);
+                        if(i == 0){
+                        temprow = temprow + Console.ReadLine();
+                        } else{
+                            temprow = temprow + ", " + Console.ReadLine();
+                        }
+                    }
+                    rows.Add(temprow);
+                    Console.WriteLine($"Last entry:\n{temprow}");
+                } else if (choice == '2'){
+                    File.WriteAllLines(saveas, rows);
+                    if(File.Exists(saveas)){
+                        Console.WriteLine("Successfully saved. Press any key to return to the main menu");
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        Console.WriteLine(message);
+                        Validate(Console.ReadLine(), 2, ref nupath, ref message, ref path, ref tempstore);
+                    }
+                    }else if(choice != '2' && choice != '3'){
+                    Console.WriteLine("Please enter a valid option");
+                }
+                }
+            } else{
+                Console.WriteLine("That file already exists, please enter a different name");
+                CreateDB(ref nupath, ref path, ref message, ref tempstore);
+            }
         }
         static void DeleteDB()
         {
@@ -139,10 +232,10 @@ internal class Program
             else if(mode == 2 && num){
                 switch(temp){
                     case 1:
-                    CreateDB();
+                    CreateDB(ref nupath, ref path, ref message, ref tempstore);
                     break;
                     case 2:
-                    EditDB("", ref path);
+                    EditDB("", ref path, ref message, ref tempstore);
                     break;
                     case 3:
                     ViewDB(ref nupath, ref message, ref tempstore);
@@ -163,7 +256,7 @@ internal class Program
                         Validate(Console.ReadLine(), 2, ref nupath, ref message, ref path, ref tempstore);
                         break;
                         case 2:
-                        EditDB(tempstore, ref path);
+                        EditDB(tempstore, ref path, ref message, ref tempstore);
                         break;
                         case 3:
                         break;
