@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 internal class Program
 {
     private static void Main(string[] args)
@@ -7,12 +8,14 @@ internal class Program
         // Final Project Database Tool Ben Kropp
         Console.Clear();
         string nupath = "";
+        string debugstr = "";
         string message = @"Please enter the mode you'd like:
 1. Create a new database
 2. Edit an existing database
 3. View an existing database
 4. Exit the app";
     string tempstore = "";
+        Debug.Assert(Validate("test", 0, ref nupath, ref message, ref debugstr, ref tempstore) == false);
         static void ViewDB(ref string nupath, ref string message, ref string tempstore)
         {
             Console.WriteLine("Please enter which file you would like to view");
