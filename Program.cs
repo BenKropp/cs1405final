@@ -11,7 +11,7 @@ internal class Program
 1. Create a new database
 2. Edit an existing database
 3. View an existing database
-4. Delete a database";
+4. Exit the app";
     string tempstore = "";
         static void ViewDB(ref string nupath, ref string message, ref string tempstore)
         {
@@ -26,7 +26,7 @@ internal class Program
                 }
                 Console.WriteLine(@"1. Back
 2. Edit this database
-3. Delete this database");
+3. Exit the app");
             string? input = Console.ReadLine();
             Validate(input, 3, ref nupath, ref message, ref path, ref tempstore);
             //Console.WriteLine("This message is to say the file exists");
@@ -205,9 +205,9 @@ internal class Program
                 CreateDB(ref nupath, ref path, ref message, ref tempstore);
             }
         }
-        static void DeleteDB()
+        static void Exit()
         {
-            Console.WriteLine("This will eventually be the Delete function (may be scrapped due to security reasons)");
+            Console.WriteLine("Exiting app...");
         }
         static bool Validate(string test, int mode, ref string nupath, ref string message, ref string path, ref string tempstore)
         {
@@ -241,7 +241,7 @@ internal class Program
                     ViewDB(ref nupath, ref message, ref tempstore);
                     break;
                     case 4:
-                    DeleteDB();
+                    Exit();
                     break;
                     default:
                     Console.WriteLine("You made it to the default option somehow");
