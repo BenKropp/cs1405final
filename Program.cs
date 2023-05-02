@@ -57,7 +57,7 @@ internal class Program
                 for(int i = 0; i < dbtemp.Count; i++){
                     dbentries[i] = dbtemp[i].ToString().Split(", ");
                 }
-                for(int i = 0; i < dbtemp.Count; i++){
+                for(int i = 0; i < dbtemp.Count-1; i++){
                     if(dbtemp[i] != "")
                     Console.WriteLine(dbtemp[i]);
                 }
@@ -77,11 +77,11 @@ internal class Program
                 }
                 if(choice > 0 && ((success && choice < dbtemp.Count) || add == 'y')) {
                     //Console.WriteLine("Placeholder text while I work on this function");
-                    for(int i = 0; i < dbentries.Length-1; i++){
+                    for(int i = 0; i < dbentries[0].Length; i++){
                         Console.Clear();
                         Console.WriteLine(dbentries[0][i]);
                         inputs.Add(Console.ReadLine());
-                        if (i != dbentries[0].Length - 1){
+                        if (i != dbentries[0].Length-1){
                             change = change + inputs[i] + ", ";
                         } else{
                             change = change + inputs[i];
